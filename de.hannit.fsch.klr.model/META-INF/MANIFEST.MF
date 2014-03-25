@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model
+Bundle-SymbolicName: de.hannit.fsch.klr.model
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.hannit.fsch.klr.model.Activator
+Bundle-Vendor: Hannoversche Informationstechnologien
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.100"
+Export-Package: de.hannit.fsch.klr.model,
+ de.hannit.fsch.klr.model.azv,
+ de.hannit.fsch.klr.model.loga,
+ de.hannit.fsch.klr.model.mitarbeiter,
+ de.hannit.fsch.klr.model.organisation,
+ de.hannit.fsch.klr.model.team
