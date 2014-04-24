@@ -305,6 +305,7 @@ private boolean datenOK = false;
 	public void setMitarbeiter(TreeMap<Integer, Mitarbeiter> mitarbeiter)
 	{
 	this.mitarbeiter = mitarbeiter;
+			
 	TreeMap<String, Arbeitszeitanteil> azvs = null;
 	/*
 	 * Wiewiel Prozentanteil hat der Mitarbeiter pro Team aufgewendet ?
@@ -320,11 +321,32 @@ private boolean datenOK = false;
 		 */
 		for (Mitarbeiter m : mitarbeiter.values())
 		{
+		teamNR = m.getTeamNR();
+			// Altersteilzeitler werden in ihr letztes aktives Team einsortiert:	
+			switch (teamNR)
+			{
+			case 0: addTeamMitglied(teamNR, m); break;
+			case 1: addTeamMitglied(teamNR, m); break;
+			case 2: addTeamMitglied(teamNR, m); break;
+			case 3: addTeamMitglied(teamNR, m); break;
+			case 4: addTeamMitglied(teamNR, m); break;
+			case 5: addTeamMitglied(teamNR, m); break;
+			// Sonderfall Vorstand, wird auf Team 0 umgesetzt:
+			case 9: 
+			teamNR = 0;
+			addTeamMitglied(teamNR, m); 
+			break;
+				
+			default:
+			teamNR = m.getLetzteTeamNR();	
+			addTeamMitglied(teamNR, m);
+			break;
+			}	
+		
 		prozentanteileTeams = new TreeMap<Integer, Integer>();	
 		azvs = m.getAzvMonat();	
 			for (Arbeitszeitanteil azv : azvs.values())
 			{
-			teamNR = azv.getITeam();	
 				if (prozentanteileTeams.containsKey(teamNR))
 				{
 				prozentanteil = prozentanteileTeams.get(teamNR);	
@@ -333,15 +355,20 @@ private boolean datenOK = false;
 				else
 				{
 				prozentanteileTeams.put(teamNR, azv.getProzentanteil());
-				}
-				// Teamliste prüfen
-				if (!teams.containsKey(teamNR))
-				{
-				teams.put(teamNR, new Team(teamNR));	
 				}			
 			}
-		teams.get(teamNR).addMitarbeiter(m);	
-		}
+			
+		}	
+	}
+	
+	private void addTeamMitglied(int teamNR, Mitarbeiter m)
+	{
+		// Teamliste prüfen
+		if (!teams.containsKey(teamNR))
+		{
+		teams.put(teamNR, new Team(teamNR));	
+		}	
+	teams.get(teamNR).addMitarbeiter(m);	
 	}
 
 	public Date getBerichtsMonat()

@@ -38,7 +38,18 @@ private TreeMap<Integer, Mitarbeiter> mitarbeitAltersteilzeit = new TreeMap<Inte
 		case Mitarbeiter.STATUS_BEAMTER:
 		beamte.put(m.getPersonalNR(), m);	
 		break;
+		
+		case Mitarbeiter.STATUS_ALTERSTEILZEIT_BEAMTE:
+		beamte.put(m.getPersonalNR(), m);
+		mitarbeitAufVorkostenstellen.put(m.getPersonalNR(), m);
+		break;
 
+		case Mitarbeiter.STATUS_ALTERSTEILZEIT_ANGESTELLTE:
+		angestellte.put(m.getPersonalNR(), m);
+		mitarbeitAufVorkostenstellen.put(m.getPersonalNR(), m);
+		break;
+
+		
 		default:
 		angestellte.put(m.getPersonalNR(), m);	
 		break;

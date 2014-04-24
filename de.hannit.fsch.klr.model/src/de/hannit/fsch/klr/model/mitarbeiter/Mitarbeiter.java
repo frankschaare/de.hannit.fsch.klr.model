@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.TreeMap;
 
 import de.hannit.fsch.klr.model.azv.Arbeitszeitanteil;
+import de.hannit.fsch.klr.model.team.TeamMitgliedschaft;
 
 /**
  * @author fsch
@@ -18,12 +19,14 @@ public class Mitarbeiter extends Person
 public static final int STATUS_SONSTIGE = 0;
 public static final int STATUS_ANGESTELLTER = 1;
 public static final int STATUS_BEAMTER = 2;
-public static final int STATUS_AUSZUBILDENDER = 3;
-public static final int STATUS_ALTERSTEILZEIT = 4;
+public static final int STATUS_AUSZUBILDENDER = 6;
+public static final int STATUS_ALTERSTEILZEIT_ANGESTELLTE = 7;
+public static final int STATUS_ALTERSTEILZEIT_BEAMTE = 8;
 public static final int STATUS_ELTERNZEIT = 5;
 
 private int personalNR = 0;
 private int teamNR = -1;
+private int letzteTeamNR = -1;
 private int status = -1;
 private String benutzerName;
 private Date abrechnungsMonat = null;
@@ -34,6 +37,7 @@ private String tarifStufe = null;
 private double stellenAnteil = 0;
 
 private ArrayList<Arbeitszeitanteil> arbeitszeitAnteile = null;
+private ArrayList<TeamMitgliedschaft> teamMitgliedschaften = null;
 private TreeMap<String, Arbeitszeitanteil> azvMonat = null;
 private boolean azvAktuell = true;
 
@@ -53,23 +57,104 @@ private int azvProzentSumme = 0;
 	}
 	
 	public ArrayList<Arbeitszeitanteil> getArbeitszeitAnteile(){return arbeitszeitAnteile;}
-	public void setArbeitszeitAnteile(ArrayList<Arbeitszeitanteil> arbeitszeitAnteile){this.arbeitszeitAnteile = arbeitszeitAnteile;
+	public void setArbeitszeitAnteile(ArrayList<Arbeitszeitanteil> arbeitszeitAnteile){this.arbeitszeitAnteile = arbeitszeitAnteile;}
+	public void setTeamMitgliedschaften(ArrayList<TeamMitgliedschaft> teamMitgliedschaften)	
+	{
+	this.teamMitgliedschaften = teamMitgliedschaften;
+		switch (this.teamMitgliedschaften.size())
+		{
+		case 0:	
+		break;
+
+		// Standard: Teammitgliedschaften enthält genau einen Eintrag
+		case 1:
+		this.teamNR = teamMitgliedschaften.get(teamMitgliedschaften.size()-1).getTeamNummer();	
+		break;
+		
+		/*
+		 * Sonderfall für z.b. Altersteilzeitler. 
+		 * Hier enthält Teammitgliedschaften mindestens zwei Einträge.
+		 * Für die Personaldurchschnittskosten wird dann zusätzlich das letzte Team gespeichert:
+		 */
+		default:
+			for (TeamMitgliedschaft teamMitgliedschaft : teamMitgliedschaften)
+			{
+				if (teamMitgliedschaft.getSqlEnddatum() == null)
+				{
+				this.teamNR = teamMitgliedschaft.getTeamNummer();
+				}
+				else
+				{
+				this.letzteTeamNR = teamMitgliedschaft.getTeamNummer();	
+				}
+			}
+		break;
+		}
+		
+		switch (this.teamNR)
+		{
+		case 6:
+		setStatus(Mitarbeiter.STATUS_AUSZUBILDENDER);	
+		break;
+		case 7:
+		setStatus(Mitarbeiter.STATUS_ALTERSTEILZEIT_ANGESTELLTE);	
+		break;
+		case 8:
+		setStatus(Mitarbeiter.STATUS_ALTERSTEILZEIT_BEAMTE);	
+		break;
+
+		default:
+		break;
+		}
 	}
-	
 	public TreeMap<String, Arbeitszeitanteil> getAzvMonat() {return azvMonat;}
 	public void setAzvMonat(TreeMap<String, Arbeitszeitanteil> azvMonat) {this.azvMonat = azvMonat;}
 
 	public int getTeamNR() 
 	{
-	return (azvMonat != null && ! azvMonat.isEmpty()) ? azvMonat.get(azvMonat.firstKey()).getITeam(): teamNR;
+		switch (teamMitgliedschaften.size())
+		{
+		case 0:
+			if (azvMonat != null && ! azvMonat.isEmpty())
+			{
+			teamNR = azvMonat.get(azvMonat.firstKey()).getITeam();	
+			}
+		break;
+		case 1:
+		teamNR = teamMitgliedschaften.get(teamMitgliedschaften.size()-1).getTeamNummer();	
+		break;
+
+		default:
+		break;
+		}
+	return teamNR;
 	}
+	public int getLetzteTeamNR() 
+	{
+	return letzteTeamNR;
+	}
+	
 	public int getPersonalNR() {return personalNR;}
 	public void setPersonalNR(int personalNR) {this.personalNR = personalNR;}
 	public void setPersonalNRAsString(String personalNR){this.personalNR = Integer.parseInt(personalNR);}
 	public String getPersonalNRAsString() {return String.valueOf(personalNR);}
 
 	public int getStatus(){return status;}
-	public void setStatus(int status){this.status = status;}
+	public void setStatus(int status)
+	{
+		switch (this.status)
+		{
+		case Mitarbeiter.STATUS_AUSZUBILDENDER:
+		break;
+		case Mitarbeiter.STATUS_ALTERSTEILZEIT_ANGESTELLTE:
+		break;
+		case Mitarbeiter.STATUS_ALTERSTEILZEIT_BEAMTE:
+		break;
+		default:
+		this.status = status;
+		break;
+		}
+	}
 
 	public String getBenutzerName() {return benutzerName;}
 	public void setBenutzerName(String benutzerName) {this.benutzerName = benutzerName;}

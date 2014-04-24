@@ -60,6 +60,7 @@ public class Constants
 	 */
 	public static final int TARIFGRUPPE_INDEX_TABLE = 4;
 	public static final String TARIFGRUPPE_LABEL_TABLE = "Tarifgruppe";
+	public static final String TARIFGRUPPE_AUZUBIS = "AZU";
 	public static final int TARIFGRUPPE_INDEX_CSV = 8;
 	
 	/**

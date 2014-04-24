@@ -43,12 +43,20 @@ private TreeMap<Integer, Team> teams = null;
 	this.mitarbeiterPNR = incoming;	
 	mitarbeiterNachname = new TreeMap<String, Mitarbeiter>();	
 	teams = new TreeMap<Integer, Team>();
+	int teamNR = -1;
 	
 		for (Mitarbeiter mPNR : mitarbeiterPNR.values())
 		{
-		mitarbeiterNachname.put(mPNR.getNachname(), mPNR);
-			
-		int teamNR = mPNR.getTeamNR();
+		mitarbeiterNachname.put(mPNR.getNachname() + ", " + mPNR.getVorname() , mPNR);
+		
+			if (mPNR.getStatus() == Mitarbeiter.STATUS_ALTERSTEILZEIT_ANGESTELLTE || mPNR.getStatus() == Mitarbeiter.STATUS_ALTERSTEILZEIT_BEAMTE)
+			{
+			teamNR = 7;	
+			}
+			else
+			{
+			teamNR = mPNR.getTeamNR();
+			}
 			if (! teams.containsKey(teamNR))
 			{
 			Team team = new Team(teamNR);
