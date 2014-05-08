@@ -5,6 +5,7 @@ package de.hannit.fsch.klr.model.azv;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.TreeMap;
 
 import de.hannit.fsch.klr.model.Datumsformate;
@@ -23,6 +24,7 @@ private String requestedYear = null;
 private boolean requestComplete = false;
 private boolean checked = false;
 private boolean errors = false;
+private boolean azvMeldungenVorhanden = false;
 private java.sql.Date berichtsMonatSQL;
 
 	/**
@@ -52,7 +54,19 @@ private java.sql.Date berichtsMonatSQL;
 	{
 	this.azvMeldungen = azvMeldungen;
 	}
-
+	
+	public boolean azvMeldungenVorhanden()
+	{
+		for (AZVDatensatz azvDatensatz : azvMeldungen)
+		{
+			if (azvDatensatz.existsAZVDatensatz())
+			{
+			azvMeldungenVorhanden = true;	
+			}
+		}
+	return azvMeldungenVorhanden;
+	}
+	
 	/*
 	 * Generiert eine Liste mit Personal- und Teamnummern
 	 */
@@ -90,10 +104,26 @@ private java.sql.Date berichtsMonatSQL;
 	public boolean isRequestComplete() {return requestComplete;}
 	public void setRequestComplete(boolean requestComplete)	{this.requestComplete = requestComplete;}
 
-	public String getRequestedMonth(){return requestedMonth;}
+	public String getRequestedMonth()
+	{
+		if (berichtsMonatSQL != null)
+		{
+		requestedMonth = Datumsformate.MONATLANG.format(berichtsMonatSQL);	
+		}
+	return requestedMonth;
+	}
+
 	public void setRequestedMonth(String requestedMonth){this.requestedMonth = requestedMonth;}
 
-	public String getRequestedYear(){return requestedYear;}
+	public String getRequestedYear()
+	{		
+		if (berichtsMonatSQL != null)
+		{
+		requestedYear = Datumsformate.JAHR.format(berichtsMonatSQL);	
+		}
+	return requestedYear;
+	}
+	
 	public void setRequestedYear(String requestedYear)
 	{
 	this.requestedYear = requestedYear;
@@ -106,8 +136,26 @@ private java.sql.Date berichtsMonatSQL;
 	public String getName(){return "OS/ECM Webservice an IP: " + getWebServiceIP() + " " + requestedMonth + " " + requestedYear;}
 	
 	public java.sql.Date getBerichtsMonatSQL() {return (berichtsMonatSQL != null) ? berichtsMonatSQL : getAzvMeldungen().get(0).getBerichtsMonatSQL();}
+	public String getBerichtsMonatAsString() 
+	{
+	return (berichtsMonatSQL != null) ? Datumsformate.MONATLANG_JAHR.format(berichtsMonatSQL) : null;
+	}
+	
+	/*
+	 * Wird benutz, wenn der Berichtsmonat über DateTime Controls festegelegt wird.
+	 * Aufruf erfolgt von:
+	 * - AZVWebservicePart
+	 */
+	public void setBerichtsMonatSQL(int iMonat, int iJahr)
+	{
+	Calendar cal = Calendar.getInstance();
+	cal.set(Calendar.DAY_OF_MONTH, 1);
+	cal.set(Calendar.MONTH, iMonat);
+	cal.set(Calendar.YEAR, iJahr);
+	
+	this.berichtsMonatSQL = new java.sql.Date(cal.getTimeInMillis());
+	}	
 
-	//TODO: prüfen, ob alle Monate übereinstimmen
 	public void setBerichtsMonatSQL()
 	{
 		if (requestedMonth != null && requestedYear != null)

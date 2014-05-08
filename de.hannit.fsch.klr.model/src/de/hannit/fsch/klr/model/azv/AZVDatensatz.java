@@ -32,6 +32,7 @@ private String kostenTraegerBeschreibung = null;
 private	int prozentAnteil = 0;
 private String source = null;
 private boolean existsMitarbeiter = false;
+private boolean existsAZVDatensatz = false;
 private boolean mitarbeiterChecked = false;	
 
 private Calendar cal = Calendar.getInstance();
@@ -210,6 +211,16 @@ private Calendar cal = Calendar.getInstance();
 	public void setRowCount(int incoming)
 	{
 	this.rowCount = incoming;	
+	}
+
+	public boolean existsAZVDatensatz()
+	{
+		return existsAZVDatensatz;
+	}
+
+	public void setExistsAZVDatensatz(boolean existsAZVDatensatz)
+	{
+		this.existsAZVDatensatz = existsAZVDatensatz;
 	}
 	
 	
