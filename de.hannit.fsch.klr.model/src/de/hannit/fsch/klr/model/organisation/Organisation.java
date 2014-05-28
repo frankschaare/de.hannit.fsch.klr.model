@@ -6,6 +6,8 @@ package de.hannit.fsch.klr.model.organisation;
 import java.util.Date;
 import java.util.TreeMap;
 
+import de.hannit.fsch.klr.model.kostenrechnung.KostenStelle;
+import de.hannit.fsch.klr.model.kostenrechnung.KostenTraeger;
 import de.hannit.fsch.klr.model.mitarbeiter.Mitarbeiter;
 import de.hannit.fsch.klr.model.team.Team;
 
@@ -22,6 +24,8 @@ private TreeMap<Date, Monatsbericht> monatsBerichte = new TreeMap<Date, Monatsbe
 private TreeMap<Integer, Mitarbeiter> mitarbeiterPNR = null;
 private TreeMap<String, Mitarbeiter> mitarbeiterNachname = null;
 private TreeMap<Integer, Team> teams = null;
+private TreeMap<Integer, KostenStelle> kostenstellen = null;
+private TreeMap<Integer, KostenTraeger> kostentraeger = null;
 
 	/**
 	 * 
@@ -75,6 +79,49 @@ private TreeMap<Integer, Team> teams = null;
 	public TreeMap<Integer, Team> getTeams()
 	{
 	return teams;
+	}
+
+	@Override
+	public String[] getComboValuesKostenstellen()
+	{
+	String[] result;
+		if (this.kostenstellen != null)
+		{
+		result = new String[this.kostenstellen.size()];	
+			for (int i = 0; i < this.kostenstellen.size(); i++)
+			{
+			result[i] = kostenstellen.get(i).getBezeichnung() + ": " + kostenstellen.get(i).getBeschreibung();
+			}
+		}
+		else
+		{
+		result = new String[]{"error"};	
+		}
+	return result;
+	}
+
+	@Override
+	public void setKostenstellen(TreeMap<Integer, KostenStelle> kostenstellen)
+	{
+	this.kostenstellen = kostenstellen;	
+	}
+
+	@Override
+	public void setKostentraeger(TreeMap<Integer, KostenTraeger> kostentraeger)
+	{
+	this.kostentraeger = kostentraeger;	
+	}
+
+	@Override
+	public TreeMap<Integer, KostenTraeger> getKostentraeger()
+	{
+	return this.kostentraeger;
+	}
+
+	@Override
+	public TreeMap<Integer, KostenStelle> getKostenStellen()
+	{
+	return this.kostenstellen;
 	}
 
 }

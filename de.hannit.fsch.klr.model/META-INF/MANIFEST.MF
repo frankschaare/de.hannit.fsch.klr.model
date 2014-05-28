@@ -11,6 +11,7 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.100"
 Export-Package: de.hannit.fsch.klr.model,
  de.hannit.fsch.klr.model.azv,
+ de.hannit.fsch.klr.model.kostenrechnung,
  de.hannit.fsch.klr.model.loga,
  de.hannit.fsch.klr.model.mitarbeiter,
  de.hannit.fsch.klr.model.organisation,

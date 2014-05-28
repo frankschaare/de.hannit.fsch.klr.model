@@ -4,6 +4,9 @@ import java.sql.Date;
 
 public interface IArbeitszeitanteil
 {
+public int getPersonalNummer();
+public void setPersonalNummer(int personalNR);
+	
 public int getITeam();
 public void setITeam(int teamNR);
 
@@ -13,6 +16,9 @@ public void setBerichtsMonat(Date berichtsMonat);
 public String getKostenstelleOderKostentraegerLang();
 public boolean isKostenstelle();
 public boolean isKostentraeger();
+
+public String getID();
+public void setID(String id);
 
 public String getKostenstelle();
 public void setKostenstelle(String kostenStelle);

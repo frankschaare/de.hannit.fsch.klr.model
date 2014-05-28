@@ -10,7 +10,9 @@ import java.sql.Date;
  *
  */
 public class Arbeitszeitanteil implements IArbeitszeitanteil
-{
+{	
+private String id = null;
+private int personalNR = 0;
 private	int iTeam = 9;	
 private	Date berichtsMonat = null;
 private	String kostenStelle = null;
@@ -161,6 +163,25 @@ private double bruttoAufwand = 0;
 	public boolean isKostentraeger()
 	{
 	return this.kostenTraeger != null ? true : false;
+	}
+
+	@Override
+	public String getID() {return this.id;
+	}
+
+	@Override
+	public void setID(String id) {this.id = id;}
+
+	@Override
+	public int getPersonalNummer()
+	{
+	return this.personalNR;
+	}
+
+	@Override
+	public void setPersonalNummer(int personalNR)
+	{
+	this.personalNR = personalNR;	
 	}
 
 }
