@@ -20,6 +20,7 @@ private boolean pnrNachgetragen = false;
 private String strTeam = null;
 private String strNachname = null;
 private String userName = null;
+private String eMail = null;
 private	int iTeam = 9;
 private Date berichtsMonat;
 private String berichtsMonatAsString = null;
@@ -221,6 +222,18 @@ private Calendar cal = Calendar.getInstance();
 	public void setExistsAZVDatensatz(boolean existsAZVDatensatz)
 	{
 		this.existsAZVDatensatz = existsAZVDatensatz;
+	}
+
+	@Override
+	public String getEMail()
+	{
+	return this.eMail;
+	}
+
+	@Override
+	public void setEMail(String eMail)
+	{
+	this.eMail = eMail;
 	}
 	
 	

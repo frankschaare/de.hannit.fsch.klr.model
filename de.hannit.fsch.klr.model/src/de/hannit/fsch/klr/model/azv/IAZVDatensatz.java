@@ -23,6 +23,9 @@ public void setTeam(String team);
 public String getNachname();
 public void setNachname(String nachname);
 
+public String getEMail();
+public void setEMail(String eMail);
+
 public Date getBerichtsMonat();
 public void setBerichtsMonat(Date berichtsMonat);
 public void setBerichtsMonatAsString(String berichtsMonat);
