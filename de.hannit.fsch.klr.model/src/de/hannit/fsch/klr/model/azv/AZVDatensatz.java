@@ -128,26 +128,34 @@ private Calendar cal = Calendar.getInstance();
 
 	public void setiTeam(String team)
 	{
-		if (team.length() > 0)
+		try
 		{
-		String[] parts = team.split(" ");	
-			try
+			if (team.length() > 0)
 			{
-			this.iTeam = Integer.parseInt(parts[1]);
+				String[] parts = team.split(" ");	
+				try
+				{
+					this.iTeam = Integer.parseInt(parts[1]);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+					this.iTeam = 9;
+				}
 			}
-			catch (NumberFormatException e)
+			else 
 			{
-			e.printStackTrace();
-			this.iTeam = 9;
+				if (personalNummer == PERSONALNUMMER_VORSTAND)
+				{
+					this.strTeam = "Vorstand";
+					this.iTeam = 0;
+				}	
 			}
+			
 		}
-		else 
+		catch (Exception e)
 		{
-			if (personalNummer == PERSONALNUMMER_VORSTAND)
-			{
-			this.strTeam = "Vorstand";
-			this.iTeam = 0;
-			}	
+		System.out.println("test");
 		}
 	}
 	public boolean personalNummerNachgetragen(){return pnrNachgetragen;}
