@@ -19,6 +19,7 @@ private	int personalNummer = 0;
 private boolean pnrNachgetragen = false;
 private String strTeam = null;
 private String strNachname = null;
+private String strVorname = null;
 private String userName = null;
 private String eMail = null;
 private	int iTeam = 9;
@@ -88,7 +89,22 @@ private Calendar cal = Calendar.getInstance();
 		}
 	}
 
-	public String getKostentraeger(){return this.kostenTraeger;}
+	/*
+	 * (non-Javadoc)
+	 * @see de.hannit.fsch.klr.model.azv.IAZVDatensatz#getKostentraeger()
+	 * 
+	 * Update vom 03.05.2016 - Errorhandling
+	 * Einige Teams haben begonnen, 'Unterkostenträger' einzuführen, z.b. '09.04.01/01'
+	 * 
+	 *  Dies zu einem Fehler im SQL-Statement. Um diesen Fehler zu umgehen, werden hier grundsätzlich nur 
+	 *  die ersten 8 Zeichen des Kostenträgers zurückgegeben
+	 *
+	 */
+	public String getKostentraeger()
+	{
+	return this.kostenTraeger != null ? this.kostenTraeger.substring(0, 8) : this.kostenTraeger ;
+	}
+
 	public String getKostenTraegerBeschreibung(){return kostenTraegerBeschreibung;}
 
 	public void setKostentraeger(String kostenTraeger)
@@ -155,7 +171,7 @@ private Calendar cal = Calendar.getInstance();
 		}
 		catch (Exception e)
 		{
-		System.out.println("test");
+
 		}
 	}
 	public boolean personalNummerNachgetragen(){return pnrNachgetragen;}
@@ -175,6 +191,8 @@ private Calendar cal = Calendar.getInstance();
 	@Override
 	public String getNachname() {return strNachname;}
 
+	public String getVorname() {return strVorname;}
+	
 	@Override
 	public void setNachname(String nachname) {this.strNachname = nachname;}
 
@@ -238,10 +256,21 @@ private Calendar cal = Calendar.getInstance();
 	return this.eMail;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.hannit.fsch.klr.model.azv.IAZVDatensatz#setEMail(java.lang.String)
+	 * 
+	 * Da der AZV-Webservice keine eindeutige Personalnummer liefert und die Suche über den Nachnamen 
+	 * nicht eindeutig ist (z.b gibt es zwei 'Arndt') wird über die eMail der Vorname des Mitarbeiters
+	 * befüllt. 
+	 */
 	@Override
 	public void setEMail(String eMail)
 	{
 	this.eMail = eMail;
+	String[] parts = this.eMail.split("@");
+	this.strVorname = parts[0].split("\\.")[0];
+	
 	}
 	
 	
