@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import de.hannit.fsch.klr.model.kostenrechnung.KostenStelle;
 import de.hannit.fsch.klr.model.kostenrechnung.KostenTraeger;
 import de.hannit.fsch.klr.model.mitarbeiter.Mitarbeiter;
+import de.hannit.fsch.klr.model.mitarbeiter.Vorstand;
 import de.hannit.fsch.klr.model.team.Team;
 
 
@@ -27,4 +28,5 @@ public void setKostenstellen(TreeMap<Integer, KostenStelle> kostenstellen);
 public void setKostentraeger(TreeMap<Integer, KostenTraeger> kostentraeger);
 public TreeMap<Integer, KostenTraeger> getKostentraeger();
 public TreeMap<Integer, KostenStelle> getKostenStellen();
+public Vorstand getVorstand();
 }

@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import de.hannit.fsch.klr.model.kostenrechnung.KostenStelle;
 import de.hannit.fsch.klr.model.kostenrechnung.KostenTraeger;
 import de.hannit.fsch.klr.model.mitarbeiter.Mitarbeiter;
+import de.hannit.fsch.klr.model.mitarbeiter.Vorstand;
 import de.hannit.fsch.klr.model.team.Team;
 
 
@@ -27,10 +28,15 @@ private TreeMap<Integer, Team> teams = null;
 private TreeMap<Integer, KostenStelle> kostenstellen = null;
 private TreeMap<Integer, KostenTraeger> kostentraeger = null;
 
+private Vorstand vorstand = null;
+
 	/**
 	 * 
 	 */
-	public Organisation(){}
+	public Organisation()
+	{
+	vorstand = new Vorstand();	
+	}
 	
 	public TreeMap<Date, Monatsbericht> getMonatsBerichte()	{return monatsBerichte;}
 	public void setMonatsBerichte(TreeMap<Date, Monatsbericht> monatsBerichte) {this.monatsBerichte = monatsBerichte;}
@@ -122,6 +128,12 @@ private TreeMap<Integer, KostenTraeger> kostentraeger = null;
 	public TreeMap<Integer, KostenStelle> getKostenStellen()
 	{
 	return this.kostenstellen;
+	}
+
+	@Override
+	public Vorstand getVorstand()
+	{
+	return vorstand;
 	}
 
 }
