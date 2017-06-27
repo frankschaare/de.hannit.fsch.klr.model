@@ -224,7 +224,6 @@ private boolean datenOK = false;
 	{
 	TreeMap<Integer, SummenZeile> summenTabelle = new TreeMap<Integer, SummenZeile>();
 	int teamNR = -1;
-	int anzahlSummenZeilen = 0;
 	SummenZeile sz = null;
 	
 	double sumBruttoAngestellte = 0;
@@ -277,13 +276,12 @@ private boolean datenOK = false;
 		sumEndkostenstellenGesamt += sumEndkostenstelle;
 		sz.setColumn8(String.valueOf(sumEndkostenstelle));		
 		
+		System.out.println("Ergänze Summentabelle für Teamnummer " + teamNR + " (" + sz.getColumn0() + ", " + sz.getColumn1() + ", " + sz.getColumn2() + ", " + sz.getColumn3() + ", " + sz.getColumn4() + ", " + sz.getColumn5() + ", " + sz.getColumn6() + ", " + sz.getColumn7() + ", " + sz.getColumn8() + ", " + sz.getColumn9() + ")");
 		summenTabelle.put(teamNR, sz);
-		anzahlSummenZeilen += 1;
 		}
 	sz = new SummenZeile();
 	sz.setLeerZeile();
-	summenTabelle.put(anzahlSummenZeilen, sz);
-	anzahlSummenZeilen += 1;
+	summenTabelle.put((teamNR + 1), sz);
 	
 	// Gesamtsummenzeile	
 	sz = new SummenZeile();
@@ -297,12 +295,12 @@ private boolean datenOK = false;
 	sz.setColumn7("");
 	sz.setColumn8(String.valueOf(sumEndkostenstellenGesamt));
 	
-	summenTabelle.put(anzahlSummenZeilen, sz);
+	summenTabelle.put((teamNR + 2), sz);
 	
 	return summenTabelle;
 	}
 	
-	public void setMitarbeiter(TreeMap<Integer, Mitarbeiter> mitarbeiter)
+	public void setMitarbeiter(TreeMap<Integer, Mitarbeiter> mitarbeiter, int pnrVorstand)
 	{
 	this.mitarbeiter = mitarbeiter;
 			
@@ -326,7 +324,13 @@ private boolean datenOK = false;
 			switch (teamNR)
 			{
 			case 0: addTeamMitglied(teamNR, m); break;
-			case 1: addTeamMitglied(teamNR, m); break;
+			case 1: 
+				if (m.getPersonalNR() == pnrVorstand)
+				{
+				teamNR = 0;
+				}	
+				addTeamMitglied(teamNR, m); 
+			break;
 			case 2: addTeamMitglied(teamNR, m); break;
 			case 3: addTeamMitglied(teamNR, m); break;
 			case 4: addTeamMitglied(teamNR, m); break;

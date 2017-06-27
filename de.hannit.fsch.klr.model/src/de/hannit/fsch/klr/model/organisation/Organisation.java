@@ -65,7 +65,14 @@ private Vorstand vorstand = null;
 			}
 			else
 			{
-			teamNR = mPNR.getTeamNR();
+				if (mPNR.getPersonalNR() == vorstand.getPersonalNR())
+				{
+				teamNR = 0;	
+				}
+				else
+				{
+				teamNR = mPNR.getTeamNR();
+				}
 			}
 			if (! teams.containsKey(teamNR))
 			{
