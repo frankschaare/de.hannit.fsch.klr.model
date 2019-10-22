@@ -142,6 +142,15 @@ private Calendar cal = Calendar.getInstance();
 
 	public int getiTeam(){return iTeam;}
 
+	/*
+	 * Neu ab 01.01.2018 wegen OE Umstellung
+	 */
+	public void setiTeam(int team)
+	{
+	this.iTeam = team;
+	this.strTeam = String.valueOf(team);
+	}
+	
 	public void setiTeam(String team)
 	{
 		try
